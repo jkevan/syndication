@@ -1,0 +1,6 @@
+<jnt = 'http://www.jahia.org/jahia/nt/1.0'>
+<jmix = 'http://www.jahia.org/jahia/mix/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
+<j = 'http://www.jahia.org/jahia/1.0'>
+
+[jnt:syndication] > jnt:content, mix:title, jmix:size, jmix:bindedComponent, jmix:siteComponent
