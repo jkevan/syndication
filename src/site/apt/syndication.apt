@@ -3,3 +3,36 @@ Jahia Syndication Module
 * {Overview}
 
   This module provides the functionality for embed contents in externals sites.
+
+
+* {Prerequisites}
+
+
+* {Deployment}
+
+
+* {Usage}
+
+  You can choose between two embedding syndication type:
+
+  Without frame: The HTML content will be past directly in the external page
+  (Jahia css and javascript will not be resolved, but the css of the external site can be applied to the content)
+  WARNING: you have to all cross domain ajax request to be able to use this mode, this is done by adding a custom filter in the web application descriptor
+  example in Jahia web.xml:
+
+<filter>
+  <filter-name>CorsFilter</filter-name>
+  <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+  <init-param>
+    <param-name>cors.allowed.origins</param-name>
+    <param-value>*</param-value>
+  </init-param>
+</filter>
+<filter-mapping>
+  <filter-name>CorsFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
+  With frame; The content will be encapsulate in an iframe HTML tag.
+  (Jahia css and javascript are resolved, but the external site css can't be applied on the content)

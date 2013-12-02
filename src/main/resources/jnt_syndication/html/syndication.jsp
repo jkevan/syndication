@@ -37,11 +37,15 @@
     <c:url value='${url.server}${url.base}${boundComponent.path}.html.ajax' var="content_url"/>
     <c:set var="height" value=""/>
     <c:set var="width" value=""/>
+    <c:set var="noFrame" value=""/>
     <c:if test="${not empty currentNode.properties['j:height']}">
         <c:set var="height"> ,height:${currentNode.properties['j:height'].string}</c:set>
     </c:if>
     <c:if test="${not empty currentNode.properties['j:width']}">
         <c:set var="width"> ,width:${currentNode.properties['j:width'].string}</c:set>
+    </c:if>
+    <c:if test="${currentNode.properties['noFrame'].boolean}">
+        <c:set var="noFrame"> ,noFrame: true</c:set>
     </c:if>
 
     <span>
@@ -57,7 +61,7 @@
 <textarea><script type="text/javascript" src="${url.server}<c:out value="${syndication_lib}"/>"></script>
 <script type="text/javascript">
     Jahia.Syndication({
-        url: '${content_url}'<c:if test="${not empty height}"><c:out value="${height}"/></c:if> <c:if test="${not empty width}"><c:out value="${width}"/></c:if>
+        url: '${content_url}'<c:if test="${not empty height}"><c:out value="${height}"/></c:if> <c:if test="${not empty width}"><c:out value="${width}"/></c:if> <c:if test="${not empty noFrame}"><c:out value="${noFrame}"/></c:if>
     });
 </script></textarea>
 
