@@ -16,51 +16,75 @@
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <%--@elvariable id="acl" type="java.lang.String"--%>
 
-<template:addResources type="css" resources="jquery.fancybox.css"/>
-<template:addResources type="css" resources="jahia.fancybox-form.css"/>
-<template:addResources type="javascript" resources="jquery.min.js,jquery-ui.min.js,jquery.fancybox.js"/>
+<template:addResources type="css" resources="01web.css,codemirror/codemirror.css,jquery.fancybox.css,syndication.css"/>
+<template:addResources type="javascript" resources="jquery.min.js,jquery-ui.min.js,jquery.fancybox.js,codemirror/lib/codemirror.js"/>
+
+<template:addResources type="javascript" resources="codemirror/mode/xml/xml.js"/>
+<template:addResources type="javascript" resources="codemirror/mode/javascript/javascript.js"/>
+<template:addResources type="javascript" resources="codemirror/mode/css/css.js"/>
+<template:addResources type="javascript" resources="codemirror/mode/htmlmixed/htmlmixed.js"/>
+
+<template:addResources type="javascript" resources="syndication.js" var="syndication_lib"/>
+
 <c:set var="boundComponent"
        value="${uiComponents:getBindedComponent(currentNode, renderContext, 'j:bindedComponent')}"/>
 
 <c:if test="${empty boundComponent && !renderContext.liveMode}">
-    <fmt:message key="syndicate.label.notBounded"/>
+    <fmt:message key="syndication.label.notBounded"/>
 </c:if>
 
 <c:if test="${not empty boundComponent}">
-    <template:addResources type="inlinejavascript">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#embed-link-${currentNode.identifier}").fancybox({
-                    'centerOnScroll': true,
-                    'overlayOpacity': 0.6,
-                    'arrows': false,
-                    'afterShow': function (selectedArray, selectedIndex, selectedOpts) {
-                        $("#embed-popup-${currentNode.identifier} textarea").select();
-                    }
-                });
-            });
-        </script>
-    </template:addResources>
-
-    <c:url value='${url.server}${url.base}${boundComponent.path}.default.html.ajax' var="content_url"/>
+    <c:url value='${url.server}${url.base}${boundComponent.path}.html.ajax' var="content_url"/>
     <c:set var="height" value=""/>
     <c:set var="width" value=""/>
     <c:if test="${not empty currentNode.properties['j:height']}">
-        <c:set var="height">height="${currentNode.properties['j:height'].string}"</c:set>
+        <c:set var="height"> ,height:${currentNode.properties['j:height'].string}</c:set>
     </c:if>
     <c:if test="${not empty currentNode.properties['j:width']}">
-        <c:set var="width">width="${currentNode.properties['j:width'].string}"</c:set>
+        <c:set var="width"> ,width:${currentNode.properties['j:width'].string}</c:set>
     </c:if>
 
-    <fmt:message key="syndicate.label.integrate.content" var="label">
-        <fmt:param value="${boundComponent.displayableName}"/>
-    </fmt:message>
-    <span>${label}: <a id="embed-link-${currentNode.identifier}" href="#embed-popup-${currentNode.identifier}"><fmt:message key="syndicate.label.generate.content"/></a></span>
+    <span>
+        <a id="embed-link-${currentNode.identifier}" href="#embed-popup-${currentNode.identifier}">
+            ${currentNode.displayableName}
+        </a>
+    </span>
 
-    <div style="display: none">
-        <div id="embed-popup-${currentNode.identifier}">
-            <h3><fmt:message key="syndicate.label.integrate"/> :</h3>
-            <textarea rows="4" cols="50"><iframe src="${content_url}" <c:out value="${height} ${width}" escapeXml="false"/>></iframe></textarea>
+    <div>
+        <div id="embed-popup-${currentNode.identifier}" class="syndication">
+            <h4><fmt:message key="syndication.popup.title"/> :</h4>
+
+<textarea><script type="text/javascript" src="${url.server}<c:out value="${syndication_lib}"/>"></script>
+<script type="text/javascript">
+    Jahia.Syndication({
+        url: '${content_url}'<c:if test="${not empty height}"><c:out value="${height}"/></c:if> <c:if test="${not empty width}"><c:out value="${width}"/></c:if>
+    });
+</script></textarea>
+
         </div>
     </div>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            var textarea = CodeMirror.fromTextArea(
+                    $("#embed-popup-${currentNode.identifier}").find("textarea").get(0), {
+                        mode: "htmlmixed",
+                        lineWrapping: true,
+                        showCursorWhenSelecting: true,
+                        readOnly:true
+                    });
+
+            $("#embed-popup-${currentNode.identifier}").hide();
+            $("#embed-link-${currentNode.identifier}").fancybox({
+                'centerOnScroll': true,
+                'overlayOpacity': 0.6,
+                'arrows': false,
+                'afterShow': function (selectedArray, selectedIndex, selectedOpts) {
+                    textarea.execCommand("selectAll");
+                }
+            });
+        });
+    </script>
 </c:if>
