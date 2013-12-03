@@ -17,7 +17,7 @@ Jahia Syndication Module
 
   Without frame: The HTML content will be past directly in the external page
   (Jahia css and javascript will not be resolved, but the css of the external site can be applied to the content)
-  WARNING: you have to all cross domain ajax request to be able to use this mode, this is done by adding a custom filter in the web application descriptor
+  WARNING: you have to allow cross domain ajax request to be able to use this mode, this is done by adding a custom filter in the web application descriptor
   example in Jahia web.xml:
 
 <filter>
