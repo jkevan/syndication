@@ -2,5 +2,7 @@
 <jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <mix = 'http://www.jcp.org/jcr/mix/1.0'>
 
-[jnt:syndication] > jnt:content, mix:title, jmix:size, jmix:bindedComponent, jmix:siteComponent
-- noFrame (boolean) = false autocreated mandatory indexed=no
+[jnt:syndication] > jnt:content, mix:title, jmix:bindedComponent, jmix:siteComponent
+ - width (string) indexed=no
+ - height (string) indexed=no
+ - noFrame (boolean) = false autocreated mandatory indexed=no

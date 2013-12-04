@@ -87,7 +87,8 @@ Jahia.Syndication = function(options) {
     var width = options.width || '100%';
 
     if(options.noFrame){
-        Ajax.doGet(url, null, function(html){
+        Ajax.doGet(url, null, function(data){
+            var html = '<div id="' + id + '" width="' + width + '" height="' + height + '">' + data + '</div>'
             document.write(html);
         }, false);
     }else {

@@ -38,11 +38,11 @@
     <c:set var="height" value=""/>
     <c:set var="width" value=""/>
     <c:set var="noFrame" value=""/>
-    <c:if test="${not empty currentNode.properties['j:height']}">
-        <c:set var="height"> ,height:${currentNode.properties['j:height'].string}</c:set>
+    <c:if test="${not empty currentNode.properties['height']}">
+        <c:set var="height"> ,height: '${currentNode.properties['height'].string}'</c:set>
     </c:if>
-    <c:if test="${not empty currentNode.properties['j:width']}">
-        <c:set var="width"> ,width:${currentNode.properties['j:width'].string}</c:set>
+    <c:if test="${not empty currentNode.properties['width']}">
+        <c:set var="width"> ,width: '${currentNode.properties['width'].string}'</c:set>
     </c:if>
     <c:if test="${currentNode.properties['noFrame'].boolean}">
         <c:set var="noFrame"> ,noFrame: true</c:set>
